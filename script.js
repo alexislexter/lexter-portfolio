@@ -48,3 +48,37 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+// Handle anchor links between sections
+document.querySelectorAll('.section-link').forEach(link => {
+    link.addEventListener('click', function(e) {
+        const targetSectionId = this.getAttribute('data-target');
+        const targetElementId = this.getAttribute('href');
+
+        // Switch active section in navigation
+        document.querySelectorAll('.content-section').forEach(section => {
+            section.classList.remove('active-section');
+        });
+        const targetSection = document.getElementById(targetSectionId);
+        if (targetSection) {
+            targetSection.classList.add('active-section');
+        }
+
+        // Update active class on nav items if applicable
+        document.querySelectorAll('.nav-item').forEach(nav => {
+            nav.classList.remove('active');
+            if (nav.getAttribute('data-section') === targetSectionId) {
+                nav.classList.add('active');
+            }
+        });
+
+        // Scroll smoothly to target project card
+        if (targetElementId && targetElementId !== '#') {
+            setTimeout(() => {
+                const element = document.querySelector(targetElementId);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 100);
+        }
+    });
+});
